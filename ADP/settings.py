@@ -35,6 +35,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,20 +56,34 @@ INSTALLED_APPS = [
     'ctf',
     # 后台管理系统
     'xadmin',
+    # 表单数据界面美化
+    'crispy_forms',
+    # 生成验证码
+    'captcha',
+    # 分页
+    'pure_pagination',
 ]
 
 # 登录规则修改
 
 
+# 分页规则修改
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 1,
+    'MARGIN_PAGES_DISPLAYED': 1,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
+
 # 用户模型更改
 AUTH_USER_MODEL = "users.UserProfile"
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -85,6 +102,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.media',
             ],
         },
     },
@@ -101,7 +119,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "adp",
         'USER': "root",
-        'PASSWORD': "",
+        'PASSWORD': "123456",
         'HOST': "127.0.0.1",
     }
 }
@@ -146,7 +164,7 @@ USE_TZ = False
 # 静态文件的配置,js,css等
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, "static"),
 )
 
 # 媒体文件的配置,用户头像的上传等
@@ -154,4 +172,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 邮件发送配置
+EMAIL_HOST = "smtp.163.com"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "15871381764@163.com"
+EMAIL_HOST_PASSWORD = "huqian1114787570"
+EMAIL_USE_TLS = False
+EMAIL_FROM = "15871381764@163.com"
 
